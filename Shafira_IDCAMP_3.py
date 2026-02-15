@@ -22,6 +22,11 @@ products_dataset        = pd.read_csv('https://raw.githubusercontent.com/shafira
 sellers_dataset         = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/sellers_dataset.csv',index_col=0)
 customers_dataset       = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
 
+file_id = "1ZO2xW5rnEndClfO72IhLyBu9XRV81X2J"  # ganti dengan ID file kamu
+gdrive_url = f"https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=sharing"
+
+geolocation_dataset = pd.read_csv(gdrive_url, index_col=0)
+
 # Cleaning Data
 products_dataset.dropna(axis=0, inplace=True)
 
@@ -29,6 +34,15 @@ products_dataset.dropna(axis=0, inplace=True)
 df= pd.merge(orders_dataset, order_items_dataset, on='order_id', how='inner')
 df= pd.merge(df, customers_dataset, on='customer_id', how='inner')
 df= pd.merge(df, products_dataset, on='product_id', how='inner')
+
+df = pd.merge(
+    df,
+    geolocation_dataset,
+    left_on='customer_zip_code_prefix',
+    right_on='geolocation_zip_code_prefix',
+    how='left'
+)
+
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
@@ -126,13 +140,13 @@ center_lon = -51.9253  # Brazil approx longitude
 m = folium.Map(location=[center_lat, center_lon], zoom_start=4)
 
 # Contoh: tambahkan marker untuk setiap customer dalam df_filtered
-# df_clean = df_filtered.dropna(subset=['geolocation_lat','geolocation_lng'])
-# for _, row in df_clean.iterrows():
-#     folium.Marker(
-#         location=[row['geolocation_lat'], row['geolocation_lng']],
-#         popup=f"Customer: {row['customer_id']}",
-#         icon=folium.Icon(color="blue", icon="user")
-#     ).add_to(m)
+df_clean = df_filtered.dropna(subset=['geolocation_lat','geolocation_lng'])
+for _, row in df_clean.iterrows():
+     folium.Marker(
+         location=[row['geolocation_lat'], row['geolocation_lng']],
+         popup=f"Customer: {row['customer_id']}",
+         icon=folium.Icon(color="blue", icon="user")
+     ).add_to(m)
 
 st_folium(m, width=700, height=500)
 
