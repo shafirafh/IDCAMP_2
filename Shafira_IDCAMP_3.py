@@ -33,7 +33,7 @@ df= pd.merge(df, products_dataset, on='product_id', how='inner')
 # ============================
 # Pertanyaan 1: Produk paling laku
 # ============================
-grouped = df.groupby('product_category_name')['price'].sum().reset_index()
+grouped = df_filtered.groupby('product_category_name')['price'].sum().reset_index()
 grouped = grouped.sort_values(by='price', ascending=False)
 top8 = grouped.head(8)
 other = pd.DataFrame({'product_category_name': ['Other'], 'price': [grouped['price'].iloc[8:].sum()]})
@@ -48,7 +48,7 @@ st.pyplot(fig1)
 # Pertanyaan 2: Jam order tinggi
 # ============================
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
-orders_per_month = df.groupby(df['order_purchase_timestamp'].dt.to_period('M')).size().reset_index(name='order_count')
+orders_per_month = df_filtered.groupby(df_filtered['order_purchase_timestamp'].dt.to_period('M')).size().reset_index(name='order_count')
 orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
 
 fig2, ax2 = plt.subplots(figsize=(10,5))
@@ -62,14 +62,14 @@ st.pyplot(fig2)
 # ============================
 # Pertanyaan 3: RFM Analysis
 # ============================
-recency_df = df.groupby(['customer_id'], as_index=False)['order_purchase_timestamp'].max()
+recency_df = df_filtered.groupby(['customer_id'], as_index=False)['order_purchase_timestamp'].max()
 recency_df.columns = ['customer_id','LastPurchaseDate']
 now = pd.Timestamp.now()
 recency_df['Recency'] = (now - recency_df['LastPurchaseDate']).dt.days
 
-resi_count = df.groupby('customer_id').size().reset_index(name='Frequency')
+resi_count = df_filtered.groupby('customer_id').size().reset_index(name='Frequency')
 
-price_sum = df.groupby('customer_id', as_index=False)['price'].sum()
+price_sum = df_filtered.groupby('customer_id', as_index=False)['price'].sum()
 price_sum.columns = ['customer_id', 'Monetary']
 
 rfm = recency_df.merge(resi_count, on='customer_id').merge(price_sum, on='customer_id')
@@ -102,7 +102,18 @@ st.pyplot(fig3)
 center_lat = -14.2350  # Brazil approx latitude
 center_lon = -51.9253  # Brazil approx longitude
 
+# Jika ingin menambahkan marker sesuai filter
 m = folium.Map(location=[center_lat, center_lon], zoom_start=4)
+
+# Contoh: tambahkan marker untuk setiap customer dalam df_filtered
+# df_clean = df_filtered.dropna(subset=['geolocation_lat','geolocation_lng'])
+# for _, row in df_clean.iterrows():
+#     folium.Marker(
+#         location=[row['geolocation_lat'], row['geolocation_lng']],
+#         popup=f"Customer: {row['customer_id']}",
+#         icon=folium.Icon(color="blue", icon="user")
+#     ).add_to(m)
+
 st_folium(m, width=700, height=500)
 
 # ============================
@@ -121,14 +132,3 @@ end_date = st.sidebar.date_input("Tanggal Selesai", max_date)
 # Filter dataframe sesuai pilihan user
 df_filtered = df[(df['order_purchase_timestamp'].dt.date >= start_date) & 
                  (df['order_purchase_timestamp'].dt.date <= end_date)]
-
-orders_per_month = df_filtered.groupby(df_filtered['order_purchase_timestamp'].dt.to_period('M')).size().reset_index(name='order_count')
-orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
-
-fig2, ax2 = plt.subplots(figsize=(10,5))
-ax2.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_count'], marker='o')
-ax2.set_xlabel('Waktu (Bulan)')
-ax2.set_ylabel('Jumlah Order')
-ax2.set_title('Jumlah Order per Bulan')
-plt.xticks(rotation=45)
-st.pyplot(fig2)
