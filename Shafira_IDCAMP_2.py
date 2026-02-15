@@ -50,16 +50,15 @@ import folium
 
 # In[3]:
 
-
-geolocation_dataset     = pd.read_csv('geolocation_dataset.csv')
-order_items_dataset     = pd.read_csv('order_items_dataset.csv')
-order_payments_dataset  = pd.read_csv('order_payments_dataset.csv')
-order_reviews_dataset   = pd.read_csv('order_reviews_dataset.csv')
-orders_dataset          = pd.read_csv('orders_dataset.csv')
-product_category_name_translation   = pd.read_csv('product_category_name_translation.csv')
-products_dataset        = pd.read_csv('products_dataset.csv')
-sellers_dataset         = pd.read_csv('sellers_dataset.csv')
-customers_dataset       = pd.read_csv('customers_dataset.csv')
+#geolocation_dataset     = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/geolocation_dataset.csv',index_col=0)
+order_items_dataset     = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/order_items_dataset.csv',index_col=0)
+order_payments_dataset  = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/order_payments_dataset.csv',index_col=0)
+order_reviews_dataset   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/order_reviews_dataset.csv',index_col=0)
+orders_dataset          = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/orders_dataset.csv',index_col=0)
+product_category_name_translation   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/product_category_name_translation.csv',index_col=0)
+products_dataset        = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/products_dataset.csv',index_col=0)
+sellers_dataset         = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/sellers_dataset.csv',index_col=0)
+customers_dataset       = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/customers_dataset.csv',index_col=0)
 #pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/order_reviews_dataset.csv',index_col=0)
 
 # In[4]:
@@ -589,5 +588,6 @@ m
 
 
 #!pip install jupyter
+
 
 
