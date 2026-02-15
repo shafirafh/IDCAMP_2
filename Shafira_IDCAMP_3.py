@@ -24,11 +24,13 @@ sellers_dataset                     = pd.read_csv('https://raw.githubusercontent
 customers_dataset                   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
 
 #https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=drive_link
-file_id               = "1SihGPqHSANH5IsoZPScFo7E2A69HnSJf"  # ganti dengan ID file CSV kamu
-gdrive_url            = f"https://drive.google.com/uc?id={file_id}&export=download"
-output                = "geolocation_dataset.csv"
+file_id = "1SihGPqHSANH5IsoZPScFo7E2A69HnSJf"
+gdrive_url = f"https://drive.google.com/uc?id={file_id}&export=download"
+output = "geolocation_dataset.csv"
 gdown.download(gdrive_url, output, quiet=False)
-geolocation_dataset   = pd.read_csv(output, index_col=0)
+
+# coba delimiter koma dulu, kalau error ganti ke ";"
+geolocation_dataset = pd.read_csv(output, index_col=0, delimiter=",")
 
 # Cleaning Data
 products_dataset.dropna(axis=0, inplace=True)
