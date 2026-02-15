@@ -51,14 +51,14 @@ import folium
 # In[3]:
 
 #geolocation_dataset     = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/geolocation_dataset.csv',index_col=0)
-order_items_dataset     = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/order_items_dataset.csv',index_col=0)
-order_payments_dataset  = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/order_payments_dataset.csv',index_col=0)
-order_reviews_dataset   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/order_reviews_dataset.csv',index_col=0)
-orders_dataset          = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/orders_dataset.csv',index_col=0)
-product_category_name_translation   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/product_category_name_translation.csv',index_col=0)
-products_dataset        = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/products_dataset.csv',index_col=0)
-sellers_dataset         = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/sellers_dataset.csv',index_col=0)
-customers_dataset       = pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/customers_dataset.csv',index_col=0)
+order_items_dataset     = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_items_dataset.csv',index_col=0)
+order_payments_dataset  = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_payments_dataset.csv',index_col=0)
+order_reviews_dataset   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_reviews_dataset.csv',index_col=0)
+orders_dataset          = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/orders_dataset.csv',index_col=0)
+product_category_name_translation   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/product_category_name_translation.csv',index_col=0)
+products_dataset        = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/products_dataset.csv',index_col=0)
+sellers_dataset         = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/sellers_dataset.csv',index_col=0)
+customers_dataset       = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
 #pd.read_csv('https://raw.githubusercontent.com/shafirafh/E-Commerce-Public-Dataset/main/order_reviews_dataset.csv',index_col=0)
 
 # In[4]:
@@ -588,6 +588,7 @@ m
 
 
 #!pip install jupyter
+
 
 
 
