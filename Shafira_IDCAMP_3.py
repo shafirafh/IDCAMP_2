@@ -30,6 +30,26 @@ df= pd.merge(orders_dataset, order_items_dataset, on='order_id', how='inner')
 df= pd.merge(df, customers_dataset, on='customer_id', how='inner')
 df= pd.merge(df, products_dataset, on='product_id', how='inner')
 
+# Pastikan kolom waktu dalam format datetime
+df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
+
+# ============================
+# Sidebar untuk filter tanggal
+# ============================
+st.sidebar.header("Filter Waktu")
+
+# Ambil tanggal minimum dan maksimum dari dataset
+min_date = df['order_purchase_timestamp'].min().date()
+max_date = df['order_purchase_timestamp'].max().date()
+
+# Widget date input di sidebar
+start_date = st.sidebar.date_input("Tanggal Mulai", min_date)
+end_date = st.sidebar.date_input("Tanggal Selesai", max_date)
+
+# Filter dataframe sesuai pilihan user
+df_filtered = df[(df['order_purchase_timestamp'].dt.date >= start_date) & 
+                 (df['order_purchase_timestamp'].dt.date <= end_date)]
+
 # ============================
 # Pertanyaan 1: Produk paling laku
 # ============================
@@ -116,19 +136,3 @@ m = folium.Map(location=[center_lat, center_lon], zoom_start=4)
 
 st_folium(m, width=700, height=500)
 
-# ============================
-# Sidebar untuk filter tanggal
-# ============================
-st.sidebar.header("Filter Waktu")
-
-# Ambil tanggal minimum dan maksimum dari dataset
-min_date = df['order_purchase_timestamp'].min().date()
-max_date = df['order_purchase_timestamp'].max().date()
-
-# Widget date input di sidebar
-start_date = st.sidebar.date_input("Tanggal Mulai", min_date)
-end_date = st.sidebar.date_input("Tanggal Selesai", max_date)
-
-# Filter dataframe sesuai pilihan user
-df_filtered = df[(df['order_purchase_timestamp'].dt.date >= start_date) & 
-                 (df['order_purchase_timestamp'].dt.date <= end_date)]
