@@ -52,7 +52,7 @@ orders_per_month = df.groupby(df['order_purchase_timestamp'].dt.to_period('M')).
 orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
 
 fig2, ax2 = plt.subplots(figsize=(10,5))
-ax2.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_id'], marker='o')
+ax2.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_count'], marker='o')
 ax2.set_xlabel('Waktu (Bulan)')
 ax2.set_ylabel('Jumlah Order')
 ax2.set_title('Jumlah Order per Bulan')
