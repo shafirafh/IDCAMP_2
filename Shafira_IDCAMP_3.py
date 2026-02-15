@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import gdown
 import folium
 from streamlit_folium import st_folium
 
@@ -22,10 +23,12 @@ products_dataset        = pd.read_csv('https://raw.githubusercontent.com/shafira
 sellers_dataset         = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/sellers_dataset.csv',index_col=0)
 customers_dataset       = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
 
-#https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=sharing
+#https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=drive_link
 file_id = "1SihGPqHSANH5IsoZPScFo7E2A69HnSJf"  # ganti dengan ID file CSV kamu
-gdrive_url = f"https://drive.google.com/uc?id={file_id}&export=download"
-geolocation_dataset = pd.read_csv(gdrive_url, index_col=0)
+gdrive_url = f"https://drive.google.com/uc?id={file_id}"
+output = "geolocation_dataset.csv"
+gdown.download(gdrive_url, output, quiet=False)
+geolocation_dataset = pd.read_csv(output, index_col=0)
 
 # Cleaning Data
 products_dataset.dropna(axis=0, inplace=True)
