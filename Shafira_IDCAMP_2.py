@@ -114,7 +114,7 @@ customers_dataset.head()
 # In[12]:
 
 
-geolocation_dataset.isnull().sum()
+#geolocation_dataset.isnull().sum()
 
 
 # In[13]:
@@ -208,15 +208,15 @@ customers_dataset.head(3)
 # In[27]:
 
 
-geolocation_dataset = geolocation_dataset.drop_duplicates(subset=['geolocation_zip_code_prefix'])
+#geolocation_dataset = geolocation_dataset.drop_duplicates(subset=['geolocation_zip_code_prefix'])
 
 
 # In[28]:
 
 
-geolocation_dataset['geolocation_lat'] = geolocation_dataset['geolocation_lat'].astype(float)
-geolocation_dataset['geolocation_lng'] = geolocation_dataset['geolocation_lng'].astype(float)
-geolocation_dataset = geolocation_dataset.dropna(subset=['geolocation_lat','geolocation_lng'])
+#geolocation_dataset['geolocation_lat'] = geolocation_dataset['geolocation_lat'].astype(float)
+#geolocation_dataset['geolocation_lng'] = geolocation_dataset['geolocation_lng'].astype(float)
+#geolocation_dataset = geolocation_dataset.dropna(subset=['geolocation_lat','geolocation_lng'])
 
 
 # ### Featuring Engineer
@@ -229,13 +229,13 @@ df= pd.merge(orders_dataset, order_items_dataset, on='order_id', how='inner')
 df= pd.merge(df, customers_dataset, on='customer_id', how='inner')
 df= pd.merge(df, products_dataset, on='product_id', how='inner')
 
-df = pd.merge(
-    df,
-    geolocation_dataset,
-    left_on='customer_zip_code_prefix',
-    right_on='geolocation_zip_code_prefix',
-    how='left'
-)
+#df = pd.merge(
+#    df,
+#    geolocation_dataset,
+#    left_on='customer_zip_code_prefix',
+#    right_on='geolocation_zip_code_prefix',
+#    how='left'
+#)
 
 df.head(5)
 
@@ -566,28 +566,29 @@ plt.show()
 
 
 # Tentukan titik tengah (misalnya rata-rata koordinat)
-center_lat = df['geolocation_lat'].mean()
-center_lon = df['geolocation_lng'].mean()
+#center_lat = df['geolocation_lat'].mean()
+#center_lon = df['geolocation_lng'].mean()
 
 m = folium.Map(location=[center_lat, center_lon], zoom_start=6)
 
 # Tambahkan marker untuk setiap customer
-df_clean = df.dropna(subset=['geolocation_lat', 'geolocation_lng'])
+#df_clean = df.dropna(subset=['geolocation_lat', 'geolocation_lng'])
 
-for _, row in df_clean.iterrows():
-    folium.Marker(
-        location=[row['geolocation_lat'], row['geolocation_lng']],
-        popup=f"Customer: {row['customer_id']}<br>Kota: {row['geolocation_city']}",
-        icon=folium.Icon(color="blue", icon="user")
-    ).add_to(m)
+#for _, row in df_clean.iterrows():
+#    folium.Marker(
+#        location=[row['geolocation_lat'], row['geolocation_lng']],
+#        popup=f"Customer: {row['customer_id']}<br>Kota: {row['geolocation_city']}",
+#        icon=folium.Icon(color="blue", icon="user")
+#    ).add_to(m)
 
-m
+#m
 
 
 # In[2]:
 
 
 #!pip install jupyter
+
 
 
 
