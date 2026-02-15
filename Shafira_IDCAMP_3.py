@@ -14,21 +14,21 @@ st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 st.title("Distribution of Customers in Brazil")
 
 # Load Dataset
-order_items_dataset     = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_items_dataset.csv',index_col=0)
-order_payments_dataset  = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_payments_dataset.csv',index_col=0)
-order_reviews_dataset   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_reviews_dataset.csv',index_col=0)
-orders_dataset          = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/orders_dataset.csv',index_col=0)
+order_items_dataset                 = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_items_dataset.csv',index_col=0)
+order_payments_dataset              = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_payments_dataset.csv',index_col=0)
+order_reviews_dataset               = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_reviews_dataset.csv',index_col=0)
+orders_dataset                      = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/orders_dataset.csv',index_col=0)
 product_category_name_translation   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/product_category_name_translation.csv',index_col=0)
-products_dataset        = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/products_dataset.csv',index_col=0)
-sellers_dataset         = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/sellers_dataset.csv',index_col=0)
-customers_dataset       = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
+products_dataset                    = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/products_dataset.csv',index_col=0)
+sellers_dataset                     = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/sellers_dataset.csv',index_col=0)
+customers_dataset                   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
 
 #https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=drive_link
-file_id = "1SihGPqHSANH5IsoZPScFo7E2A69HnSJf"  # ganti dengan ID file CSV kamu
-gdrive_url = f"https://drive.google.com/uc?id={file_id}"
-output = "geolocation_dataset.csv"
+file_id               = "1SihGPqHSANH5IsoZPScFo7E2A69HnSJf"  # ganti dengan ID file CSV kamu
+gdrive_url            = f"https://drive.google.com/uc?id={file_id}&export=download"
+output                = "geolocation_dataset.csv"
 gdown.download(gdrive_url, output, quiet=False)
-geolocation_dataset = pd.read_csv(output, index_col=0)
+geolocation_dataset   = pd.read_csv(output, index_col=0)
 
 # Cleaning Data
 products_dataset.dropna(axis=0, inplace=True)
