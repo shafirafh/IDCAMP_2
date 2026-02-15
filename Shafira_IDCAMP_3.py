@@ -48,7 +48,7 @@ st.pyplot(fig1)
 # Pertanyaan 2: Jam order tinggi
 # ============================
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
-orders_per_month = df.groupby(df['order_purchase_timestamp'].dt.to_period('M'))['order_id'].count().reset_index()
+orders_per_month = df.groupby(df['order_purchase_timestamp'].dt.to_period('M')).size().reset_index(name='order_count')
 orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
 
 fig2, ax2 = plt.subplots(figsize=(10,5))
