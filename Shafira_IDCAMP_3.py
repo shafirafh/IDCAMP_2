@@ -104,3 +104,31 @@ center_lon = -51.9253  # Brazil approx longitude
 
 m = folium.Map(location=[center_lat, center_lon], zoom_start=4)
 st_folium(m, width=700, height=500)
+
+# ============================
+# Sidebar untuk filter tanggal
+# ============================
+st.sidebar.header("Filter Waktu")
+
+# Ambil tanggal minimum dan maksimum dari dataset
+min_date = df['order_purchase_timestamp'].min().date()
+max_date = df['order_purchase_timestamp'].max().date()
+
+# Widget date input di sidebar
+start_date = st.sidebar.date_input("Tanggal Mulai", min_date)
+end_date = st.sidebar.date_input("Tanggal Selesai", max_date)
+
+# Filter dataframe sesuai pilihan user
+df_filtered = df[(df['order_purchase_timestamp'].dt.date >= start_date) & 
+                 (df['order_purchase_timestamp'].dt.date <= end_date)]
+
+orders_per_month = df_filtered.groupby(df_filtered['order_purchase_timestamp'].dt.to_period('M')).size().reset_index(name='order_count')
+orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
+
+fig2, ax2 = plt.subplots(figsize=(10,5))
+ax2.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_count'], marker='o')
+ax2.set_xlabel('Waktu (Bulan)')
+ax2.set_ylabel('Jumlah Order')
+ax2.set_title('Jumlah Order per Bulan')
+plt.xticks(rotation=45)
+st.pyplot(fig2)
