@@ -23,9 +23,9 @@ products_dataset                    = pd.read_csv('https://raw.githubusercontent
 sellers_dataset                     = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/sellers_dataset.csv',index_col=0)
 customers_dataset                   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
 
-#https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=drive_link
+#https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=sharing
 #https://drive.google.com/drive/folders/1ZO2xW5rnEndClfO72IhLyBu9XRV81X2J?usp=sharing
-file_id = "1ZO2xW5rnEndClfO72IhLyBu9XRV81X2J"
+file_id = "1SihGPqHSANH5IsoZPScFo7E2A69HnSJf"
 gdrive_url = f"https://drive.google.com/uc?id={file_id}&export=download"
 output = "geolocation_dataset.csv"
 gdown.download(gdrive_url, output, quiet=False)
