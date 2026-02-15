@@ -67,8 +67,8 @@ recency_df.columns = ['customer_id','LastPurchaseDate']
 now = pd.Timestamp.now()
 recency_df['Recency'] = (now - recency_df['LastPurchaseDate']).dt.days
 
-resi_count = df.groupby('customer_id', as_index=False)['order_id'].count()
-resi_count.columns = ['customer_id', 'Frequency']
+resi_count = df.groupby('customer_id').size().reset_index(name='Frequency')
+
 price_sum = df.groupby('customer_id', as_index=False)['price'].sum()
 price_sum.columns = ['customer_id', 'Monetary']
 
