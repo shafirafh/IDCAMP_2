@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
-st.header('🛍️ Dahshboard Brasilia E-Commerce Dataset')
+import streamlit as st
+
+st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 
 st.title("Distribution of Customers in Brazil")
 # # Proyek Analisis Data: Nama dataset
@@ -587,4 +589,5 @@ m
 
 
 #!pip install jupyter
+
 
