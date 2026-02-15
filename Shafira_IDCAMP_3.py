@@ -22,12 +22,9 @@ products_dataset        = pd.read_csv('https://raw.githubusercontent.com/shafira
 sellers_dataset         = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/sellers_dataset.csv',index_col=0)
 customers_dataset       = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
 
-file_id = "1ZO2xW5rnEndClfO72IhLyBu9XRV81X2J"  # ganti dengan ID file kamu
-gdrive_url = f"https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf&export=download"
 #https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=sharing
-
-customers_dataset = pd.read_csv(gdrive_url, index_col=0)
-
+file_id = "1SihGPqHSANH5IsoZPScFo7E2A69HnSJf"  # ganti dengan ID file CSV kamu
+gdrive_url = f"https://drive.google.com/uc?id={file_id}&export=download"
 geolocation_dataset = pd.read_csv(gdrive_url, index_col=0)
 
 # Cleaning Data
