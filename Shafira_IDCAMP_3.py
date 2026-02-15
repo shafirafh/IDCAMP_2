@@ -23,7 +23,8 @@ sellers_dataset         = pd.read_csv('https://raw.githubusercontent.com/shafira
 customers_dataset       = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
 
 file_id = "1ZO2xW5rnEndClfO72IhLyBu9XRV81X2J"  # ganti dengan ID file kamu
-gdrive_url = f"https://drive.google.com/uc?id=1ZO2xW5rnEndClfO72IhLyBu9XRV81X2J&export=download"
+gdrive_url = f"https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf&export=download"
+#https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=sharing
 
 customers_dataset = pd.read_csv(gdrive_url, index_col=0)
 
