@@ -36,7 +36,7 @@ def load_geolocation():
 geolocation_dataset = load_geolocation()
 
 # coba delimiter koma dulu, kalau error ganti ke ";"
-geolocation_dataset = pd.read_csv(geolocation_dataset, index_col=0, delimiter=",")
+#geolocation_dataset = pd.read_csv(geolocation_dataset, index_col=0, delimiter=",")
 
 # Cleaning Data
 products_dataset.dropna(axis=0, inplace=True)
@@ -46,14 +46,11 @@ df= pd.merge(orders_dataset, order_items_dataset, on='order_id', how='inner')
 df= pd.merge(df, customers_dataset, on='customer_id', how='inner')
 df= pd.merge(df, products_dataset, on='product_id', how='inner')
 
-df = pd.merge(
-    df,
-    geolocation_dataset,
-    left_on='customer_zip_code_prefix',
-    right_on='geolocation_zip_code_prefix',
-    how='left'
+geolocation_dataset.rename(
+    columns={'geolocation_zip_code_prefix': 'customer_zip_code_prefix'},
+    inplace=True
 )
-
+df= pd.merge(df, geolocation_dataset, on='customer_zip_code_prefix', how='inner')
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
