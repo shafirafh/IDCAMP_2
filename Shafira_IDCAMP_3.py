@@ -5,9 +5,6 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-import gdown
-import folium
-from streamlit_folium import st_folium
 
 # Header & Title
 st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
@@ -39,15 +36,12 @@ df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
 # ============================
 st.sidebar.header("Filter Waktu")
 
-# Ambil tanggal minimum dan maksimum dari dataset
 min_date = df['order_purchase_timestamp'].min().date()
 max_date = df['order_purchase_timestamp'].max().date()
 
-# Widget date input di sidebar
 start_date = st.sidebar.date_input("Tanggal Mulai", min_date)
 end_date = st.sidebar.date_input("Tanggal Selesai", max_date)
 
-# Filter dataframe sesuai pilihan user
 df_filtered = df[(df['order_purchase_timestamp'].dt.date >= start_date) & 
                  (df['order_purchase_timestamp'].dt.date <= end_date)]
 
@@ -66,9 +60,8 @@ ax1.set_title('Total Amount per Category (Top 8 + Other)')
 st.pyplot(fig1)
 
 # ============================
-# Pertanyaan 2: Jam order tinggi
+# Pertanyaan 2: Jumlah order per bulan
 # ============================
-df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
 orders_per_month = df_filtered.groupby(df_filtered['order_purchase_timestamp'].dt.to_period('M')).size().reset_index(name='order_count')
 orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
 
@@ -115,4 +108,3 @@ ax3.set_xlabel('Segment')
 ax3.set_ylabel('Jumlah Pelanggan')
 ax3.set_title('Distribusi Pelanggan per Segment RFM')
 st.pyplot(fig3)
-
