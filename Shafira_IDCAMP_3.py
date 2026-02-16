@@ -29,11 +29,6 @@ customers_dataset                   = pd.read_csv('https://raw.githubusercontent
 geolocation_dataset = pd.read_csv(
     "https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf"
 )
-@st.cache_data
-def load_geolocation():
-    return pd.read_csv("https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf")
-
-geolocation_dataset = load_geolocation()
 
 # coba delimiter koma dulu, kalau error ganti ke ";"
 #geolocation_dataset = pd.read_csv(geolocation_dataset, index_col=0, delimiter=",")
@@ -46,15 +41,11 @@ df= pd.merge(orders_dataset, order_items_dataset, on='order_id', how='inner')
 df= pd.merge(df, customers_dataset, on='customer_id', how='inner')
 df= pd.merge(df, products_dataset, on='product_id', how='inner')
 
-geolocation_dataset.rename(
-    columns={'geolocation_zip_code_prefix': 'customer_zip_code_prefix'},
-    inplace=True
-)
 df = pd.merge(
     df,
     geolocation_dataset,
     left_on='customer_zip_code_prefix',
-    right_on='customer_zip_code_prefix',
+    right_on='geolocation_zip_code_prefix',
     how='left'
 )
 
