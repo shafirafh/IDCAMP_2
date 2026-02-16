@@ -31,9 +31,6 @@ customers_dataset                   = pd.read_csv('https://raw.githubusercontent
 #    delimiter=";"
 #)
 
-# coba delimiter koma dulu, kalau error ganti ke ";"
-#geolocation_dataset = pd.read_csv(geolocation_dataset, index_col=0, delimiter=",")
-
 # Cleaning Data
 products_dataset.dropna(axis=0, inplace=True)
 
