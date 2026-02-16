@@ -28,7 +28,7 @@ customers_dataset                   = pd.read_csv('https://raw.githubusercontent
 
 geolocation_dataset = pd.read_csv(
     "https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf",
-    delimiter=","
+    delimiter=";"
 )
 
 # coba delimiter koma dulu, kalau error ganti ke ";"
@@ -42,13 +42,13 @@ df= pd.merge(orders_dataset, order_items_dataset, on='order_id', how='inner')
 df= pd.merge(df, customers_dataset, on='customer_id', how='inner')
 df= pd.merge(df, products_dataset, on='product_id', how='inner')
 
-df = pd.merge(
-    df,
-    geolocation_dataset,
-    left_on='customer_zip_code_prefix',
-    right_on='geolocation_zip_code_prefix',
-    how='left'
-)
+#df = pd.merge(
+#    df,
+#    geolocation_dataset,
+#    left_on='customer_zip_code_prefix',
+#    right_on='geolocation_zip_code_prefix',
+#    how='left'
+#)
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
