@@ -26,10 +26,14 @@ customers_dataset                   = pd.read_csv('https://raw.githubusercontent
 #https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=sharing
 #https://drive.google.com/drive/folders/1ZO2xW5rnEndClfO72IhLyBu9XRV81X2J?usp=sharing
 
-file_id = "1SihGPqHSANH5IsoZPScFo7E2A69HnSJf"
-gdrive_url = f"https://drive.google.com/uc?id={file_id}&export=download"
-output = "geolocation_dataset.csv"
-gdown.download(gdrive_url, output, quiet=False)
+geolocation_dataset = pd.read_csv(
+    "https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf"
+)
+@st.cache_data
+def load_geolocation():
+    return pd.read_csv("https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf")
+
+geolocation_dataset = load_geolocation()
 
 # coba delimiter koma dulu, kalau error ganti ke ";"
 geolocation_dataset = pd.read_csv(output, index_col=0, delimiter=",")
