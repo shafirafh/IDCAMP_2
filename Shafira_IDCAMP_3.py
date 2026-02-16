@@ -23,14 +23,6 @@ products_dataset                    = pd.read_csv('https://raw.githubusercontent
 sellers_dataset                     = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/sellers_dataset.csv',index_col=0)
 customers_dataset                   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
 
-#https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=sharing
-#https://drive.google.com/drive/folders/1ZO2xW5rnEndClfO72IhLyBu9XRV81X2J?usp=sharing
-
-#geolocation_dataset = pd.read_csv(
-#    "https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf",
-#    delimiter=";"
-#)
-
 # Cleaning Data
 products_dataset.dropna(axis=0, inplace=True)
 
@@ -38,14 +30,6 @@ products_dataset.dropna(axis=0, inplace=True)
 df= pd.merge(orders_dataset, order_items_dataset, on='order_id', how='inner')
 df= pd.merge(df, customers_dataset, on='customer_id', how='inner')
 df= pd.merge(df, products_dataset, on='product_id', how='inner')
-
-#df = pd.merge(
-#    df,
-#    geolocation_dataset,
-#    left_on='customer_zip_code_prefix',
-#    right_on='geolocation_zip_code_prefix',
-#    how='left'
-#)
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
@@ -131,25 +115,4 @@ ax3.set_xlabel('Segment')
 ax3.set_ylabel('Jumlah Pelanggan')
 ax3.set_title('Distribusi Pelanggan per Segment RFM')
 st.pyplot(fig3)
-
-# ============================
-# Pertanyaan 4: Persebaran Customer
-# ============================
-# Tentukan titik tengah
-#center_lat = -14.2350  # Brazil approx latitude
-#center_lon = -51.9253  # Brazil approx longitude
-
-# Jika ingin menambahkan marker sesuai filter
-#m = folium.Map(location=[center_lat, center_lon], zoom_start=4)
-
-# Contoh: tambahkan marker untuk setiap customer dalam df_filtered
-#df_clean = df_filtered.dropna(subset=['geolocation_lat','geolocation_lng'])
-#for _, row in df_clean.iterrows():
-#     folium.Marker(
-#         location=[row['geolocation_lat'], row['geolocation_lng']],
-#         popup=f"Customer: {row['customer_id']}",
-#         icon=folium.Icon(color="blue", icon="user")
-#     ).add_to(m)
-
-#st_folium(m, width=700, height=500)
 
