@@ -136,11 +136,11 @@ st.pyplot(fig3)
 # Pertanyaan 4: Persebaran Customer
 # ============================
 # Tentukan titik tengah
-center_lat = -14.2350  # Brazil approx latitude
-center_lon = -51.9253  # Brazil approx longitude
+#center_lat = -14.2350  # Brazil approx latitude
+#center_lon = -51.9253  # Brazil approx longitude
 
 # Jika ingin menambahkan marker sesuai filter
-m = folium.Map(location=[center_lat, center_lon], zoom_start=4)
+#m = folium.Map(location=[center_lat, center_lon], zoom_start=4)
 
 # Contoh: tambahkan marker untuk setiap customer dalam df_filtered
 #df_clean = df_filtered.dropna(subset=['geolocation_lat','geolocation_lng'])
