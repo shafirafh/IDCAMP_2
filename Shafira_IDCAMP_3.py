@@ -26,10 +26,10 @@ customers_dataset                   = pd.read_csv('https://raw.githubusercontent
 #https://drive.google.com/file/d/1SihGPqHSANH5IsoZPScFo7E2A69HnSJf/view?usp=sharing
 #https://drive.google.com/drive/folders/1ZO2xW5rnEndClfO72IhLyBu9XRV81X2J?usp=sharing
 
-geolocation_dataset = pd.read_csv(
-    "https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf",
-    delimiter=";"
-)
+#geolocation_dataset = pd.read_csv(
+#    "https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf",
+#    delimiter=";"
+#)
 
 # coba delimiter koma dulu, kalau error ganti ke ";"
 #geolocation_dataset = pd.read_csv(geolocation_dataset, index_col=0, delimiter=",")
@@ -146,13 +146,13 @@ center_lon = -51.9253  # Brazil approx longitude
 m = folium.Map(location=[center_lat, center_lon], zoom_start=4)
 
 # Contoh: tambahkan marker untuk setiap customer dalam df_filtered
-df_clean = df_filtered.dropna(subset=['geolocation_lat','geolocation_lng'])
-for _, row in df_clean.iterrows():
-     folium.Marker(
-         location=[row['geolocation_lat'], row['geolocation_lng']],
-         popup=f"Customer: {row['customer_id']}",
-         icon=folium.Icon(color="blue", icon="user")
-     ).add_to(m)
+#df_clean = df_filtered.dropna(subset=['geolocation_lat','geolocation_lng'])
+#for _, row in df_clean.iterrows():
+#     folium.Marker(
+#         location=[row['geolocation_lat'], row['geolocation_lng']],
+#         popup=f"Customer: {row['customer_id']}",
+#         icon=folium.Icon(color="blue", icon="user")
+#     ).add_to(m)
 
-st_folium(m, width=700, height=500)
+#st_folium(m, width=700, height=500)
 
