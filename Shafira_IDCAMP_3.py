@@ -28,7 +28,7 @@ customers_dataset                   = pd.read_csv('https://raw.githubusercontent
 
 geolocation_dataset = pd.read_csv(
     "https://drive.google.com/uc?id=1SihGPqHSANH5IsoZPScFo7E2A69HnSJf",
-    delimiter=";"
+    delimiter=","
 )
 
 # coba delimiter koma dulu, kalau error ganti ke ";"
