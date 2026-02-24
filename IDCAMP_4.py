@@ -14,8 +14,6 @@ st.title("Distribution of Customers in Brazil")
 # Load Dataset
 #https://drive.google.com/drive/folders/1xwdCgk1Ir7xLzCvDZxKjQcwLo5re9ny-?hl=id
 #https://drive.google.com/file/d/1cxQyyNWMOUotdZ628voiQgO_c56cn9pi/view?usp=drive_link
-import gdown
-import pandas as pd
 
 # Link file Google Drive (gunakan ID file, bukan folder)
 url = "https://drive.google.com/uc?id=1cxQyyNWMOUotdZ628voiQgO_c56cn9pi"
