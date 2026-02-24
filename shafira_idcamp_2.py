@@ -35,6 +35,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import folium
 
+st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
+
+st.title("Distribution of Customers in Brazil")
+
 # Load ke DataFrame
 df = pd.read_csv("df.csv")
 
