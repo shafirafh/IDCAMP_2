@@ -17,7 +17,7 @@ st.title("Distribution of Customers in Brazil")
 #https://drive.google.com/file/d/1cxQyyNWMOUotdZ628voiQgO_c56cn9pi/view?usp=sharing
 
 # Link file Google Drive (gunakan ID file, bukan folder)
-url = "https://drive.google.com/uc?id=1cxQyyNWMOUotdZ628voiQgO_c56cn9pi"
+url = "https://drive.google.com/uc?id=15mxE9am-J6iDYOvaF32gdqy49tjz_QPl"
 output = "df.csv"
 
 # Download file
