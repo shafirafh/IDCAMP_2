@@ -78,8 +78,6 @@ st.subheader("Insight 1")
 st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho."
          "Terlihat bahwa 8.2% penjualan selama 2017 berasal dari cama mesa banho.")
 
-st.pyplot(fig1)
-
 # ============================
 # Pertanyaan 2: Pada bulan berapa order tertinggi selama tahun 2017?
 # ============================
@@ -98,8 +96,6 @@ st.pyplot(fig2)
 st.subheader("Insight 2")
 st.write("Pada tahun 2017, order terbanyak berada di bulan 11 (November)."
          "Terlihat dari puncak grafik tertinggi pada bulan November yang terdiri lebih dari 8000 order.")
-
-st.pyplot(fig1)
 
 # ============================
 # Pertanyaan 3: Berapa jumlah customer loyal selama tahun 2017 dan 2018? 
@@ -143,12 +139,9 @@ st.write("Pada tahun 2017 customer terdiri dari kategori potential loyal/ at ris
          "Pada tahun 2018 customer terdiri dari kategori customer loyal customers, potential loyalist/at risk, dan champions."
          "Dari grafik, menunjukkan bahwa dari tahun 2017 ke tahun 2018 terdapat kenaikan/perbaikan kualitas, sehingga pada tahun 2018 tidak terdapat customer hibernating/lost.")
 
-st.pyplot(fig1)
-
 # Conclusion
 st.markdown("**Conclusion:** "
             "- berdasarkan hasil rfm, customer bisa melakukan pembelian hingga nilai 6735, sedangkan rata-rata pembelian 120. hal tersebut menunjukkan bahwa penjualan masih bisa dioptimalkan dengan mengatur strategi yang tepat."
             "- berdasarkan hasil rfm, juga diperoleh informasi bahwa customer hibernating/lost sudah tidak ada pada tahun 2018. namun perlu diperhatikan bahwa, at risk masih tinggi sehingga diperlukan program yang mendukung untuk kedepannya."
             "- berdasarkan line chart jumlah order, diketahui bahwa orderan tahun 2017 ke 2018 cenderung naik. namun perlu menjadi perhatian bahwa akhir 2018 terjadi penurunan drastis, sehingga perlu diteliti lebih lanjut."
             )
-st.pyplot(fig1)
