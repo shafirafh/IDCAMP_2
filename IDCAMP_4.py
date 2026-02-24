@@ -11,22 +11,7 @@ st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 st.title("Distribution of Customers in Brazil")
 
 # Load Dataset
-order_items_dataset                 = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_items_dataset.csv',index_col=0)
-order_payments_dataset              = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_payments_dataset.csv',index_col=0)
-order_reviews_dataset               = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/order_reviews_dataset.csv',index_col=0)
-orders_dataset                      = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/orders_dataset.csv',index_col=0)
-product_category_name_translation   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/product_category_name_translation.csv',index_col=0)
-products_dataset                    = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/products_dataset.csv',index_col=0)
-sellers_dataset                     = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/sellers_dataset.csv',index_col=0)
-customers_dataset                   = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/customers_dataset.csv',index_col=0)
-
-# Cleaning Data
-products_dataset.dropna(axis=0, inplace=True)
-
-# Merge Data
-df= pd.merge(orders_dataset, order_items_dataset, on='order_id', how='inner')
-df= pd.merge(df, customers_dataset, on='customer_id', how='inner')
-df= pd.merge(df, products_dataset, on='product_id', how='inner')
+df                = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/df.csv',index_col=0)
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
@@ -46,7 +31,7 @@ df_filtered = df[(df['order_purchase_timestamp'].dt.date >= start_date) &
                  (df['order_purchase_timestamp'].dt.date <= end_date)]
 
 # ============================
-# Pertanyaan 1: Produk paling laku
+# Pertanyaan 1: Produk paling laku selama tahun 2017?
 # ============================
 grouped = df_filtered.groupby('product_category_name')['price'].sum().reset_index()
 grouped = grouped.sort_values(by='price', ascending=False)
@@ -59,8 +44,15 @@ ax1.pie(pie_data['price'], labels=pie_data['product_category_name'], autopct='%1
 ax1.set_title('Total Amount per Category (Top 8 + Other)')
 st.pyplot(fig1)
 
+# Tambahkan kesimpulan di Streamlit
+st.subheader("Insight 1")
+st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho."
+         "Terlihat bahwa 8.2% penjualan selama 2017 berasal dari cama mesa banho.")
+
+st.pyplot(fig1)
+
 # ============================
-# Pertanyaan 2: Jumlah order per bulan
+# Pertanyaan 2: Pada bulan berapa order tertinggi selama tahun 2017?
 # ============================
 orders_per_month = df_filtered.groupby(df_filtered['order_purchase_timestamp'].dt.to_period('M')).size().reset_index(name='order_count')
 orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
@@ -73,8 +65,15 @@ ax2.set_title('Jumlah Order per Bulan')
 plt.xticks(rotation=45)
 st.pyplot(fig2)
 
+# Tambahkan kesimpulan di Streamlit
+st.subheader("Insight 2")
+st.write("Pada tahun 2017, order terbanyak berada di bulan 11 (November)."
+         "Terlihat dari puncak grafik tertinggi pada bulan November yang terdiri lebih dari 8000 order.")
+
+st.pyplot(fig1)
+
 # ============================
-# Pertanyaan 3: RFM Analysis
+# Pertanyaan 3: Berapa jumlah customer loyal selama tahun 2017 dan 2018? 
 # ============================
 recency_df = df_filtered.groupby(['customer_id'], as_index=False)['order_purchase_timestamp'].max()
 recency_df.columns = ['customer_id','LastPurchaseDate']
@@ -108,3 +107,19 @@ ax3.set_xlabel('Segment')
 ax3.set_ylabel('Jumlah Pelanggan')
 ax3.set_title('Distribusi Pelanggan per Segment RFM')
 st.pyplot(fig3)
+
+# Tambahkan kesimpulan di Streamlit
+st.subheader("Insight 3")
+st.write("Pada tahun 2017 customer terdiri dari kategori potential loyal/ at risk, hibernating/ lost, dan loyal customers."
+         "Pada tahun 2018 customer terdiri dari kategori customer loyal customers, potential loyalist/at risk, dan champions."
+         "Dari grafik, menunjukkan bahwa dari tahun 2017 ke tahun 2018 terdapat kenaikan/perbaikan kualitas, sehingga pada tahun 2018 tidak terdapat customer hibernating/lost.")
+
+st.pyplot(fig1)
+
+# Conclusion
+st.markdown("**Conclusion:** "
+            "- berdasarkan hasil rfm, customer bisa melakukan pembelian hingga nilai 6735, sedangkan rata-rata pembelian 120. hal tersebut menunjukkan bahwa penjualan masih bisa dioptimalkan dengan mengatur strategi yang tepat."
+            "- berdasarkan hasil rfm, juga diperoleh informasi bahwa customer hibernating/lost sudah tidak ada pada tahun 2018. namun perlu diperhatikan bahwa, at risk masih tinggi sehingga diperlukan program yang mendukung untuk kedepannya."
+            "- berdasarkan line chart jumlah order, diketahui bahwa orderan tahun 2017 ke 2018 cenderung naik. namun perlu menjadi perhatian bahwa akhir 2018 terjadi penurunan drastis, sehingga perlu diteliti lebih lanjut."
+            )
+st.pyplot(fig1)
