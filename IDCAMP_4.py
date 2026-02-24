@@ -49,7 +49,7 @@ st.pyplot(fig1)
 
 # Tambahkan kesimpulan di Streamlit
 st.subheader("Insight 1")
-st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho."
+st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho. "
          "Terlihat bahwa 8.2% penjualan selama 2017 berasal dari cama mesa banho.")
 
 st.pyplot(fig1)
