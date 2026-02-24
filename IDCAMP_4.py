@@ -12,7 +12,8 @@ st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 st.title("Distribution of Customers in Brazil")
 
 # Load Dataset
-url = 'https://drive.google.com/uc?id=1xwdCgk1Ir7xLzCvDZxKjQcwLo5re9ny-?hl'
+url = 'https://drive.google.com/uc?id=1xwdCgk1Ir7xLzCvDZxKjQcwLo5re9ny-'
+#https://drive.google.com/file/d/1cxQyyNWMOUotdZ628voiQgO_c56cn9pi/view?usp=drive_link
 df = 'df.csv'
 gdown.download(url, output, quiet=False)
 
