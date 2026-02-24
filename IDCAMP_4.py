@@ -15,7 +15,7 @@ st.title("Distribution of Customers in Brazil")
 url = 'https://drive.google.com/uc?id=1cxQyyNWMOUotdZ628voiQgO_c56cn9pi'
 #https://drive.google.com/file/d/1cxQyyNWMOUotdZ628voiQgO_c56cn9pi/view?usp=drive_link
 df = 'df.csv'
-gdown.download(url, output, quiet=False)
+gdown.download(url, df, quiet=False)
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
