@@ -42,7 +42,7 @@ st.title("Distribution of Customers in Brazil")
 # Load ke DataFrame
 df = pd.read_csv("df.csv")
 
-# Ubah kolom timestamp jadi datetime
+# Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
 
 # ============================
@@ -75,7 +75,7 @@ st.pyplot(fig1)
 
 # Tambahkan kesimpulan di Streamlit
 st.subheader("Insight 1")
-st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho. "
+st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho."
          "Terlihat bahwa 8.2% penjualan selama 2017 berasal dari cama mesa banho.")
 
 st.pyplot(fig1)
