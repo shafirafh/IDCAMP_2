@@ -84,18 +84,13 @@ st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho."
 orders_per_month = df_filtered.groupby(df_filtered['order_purchase_timestamp'].dt.to_period('M')).size().reset_index(name='order_count')
 orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
 
-if orders_per_month.empty:
-    st.subheader("Insight 2")
-    st.write("Data tidak tersedia untuk range waktu yang dipilih.")
-else:
-    # Buat grafik
-    fig2, ax2 = plt.subplots(figsize=(10,5))
-    ax2.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_count'], marker='o')
-    ax2.set_xlabel('Waktu (Bulan)')
-    ax2.set_ylabel('Jumlah Order')
-    ax2.set_title('Jumlah Order per Bulan')
-    plt.xticks(rotation=45)
-    st.pyplot(fig2)
+fig2, ax2 = plt.subplots(figsize=(10,5))
+ax2.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_count'], marker='o')
+ax2.set_xlabel('Waktu (Bulan)')
+ax2.set_ylabel('Jumlah Order')
+ax2.set_title('Jumlah Order per Bulan')
+plt.xticks(rotation=45)
+st.pyplot(fig2)
 
 # Tambahkan kesimpulan di Streamlit
 st.subheader("Insight 2")
