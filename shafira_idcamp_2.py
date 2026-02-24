@@ -35,19 +35,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import folium
 
-"""
-
-df = pd.read_csv('df.csv')
-df.head(5)
-# Header & Title
-st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
-st.title("Distribution of Customers in Brazil")
-
-# Load Dataset
-#https://drive.google.com/drive/folders/1xwdCgk1Ir7xLzCvDZxKjQcwLo5re9ny-?hl=id
-#https://drive.google.com/file/d/1cxQyyNWMOUotdZ628voiQgO_c56cn9pi/view?usp=drive_link
-#https://drive.google.com/file/d/1cxQyyNWMOUotdZ628voiQgO_c56cn9pi/view?usp=sharing
-
+# Load ke DataFrame
+df = pd.read_csv("df.csv")
 
 # Ubah kolom timestamp jadi datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
