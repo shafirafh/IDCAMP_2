@@ -5,13 +5,16 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import gdown
 
 # Header & Title
 st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 st.title("Distribution of Customers in Brazil")
 
 # Load Dataset
-df                = pd.read_csv('https://raw.githubusercontent.com/shafirafh/IDCAMP_2/main/df.csv',index_col=0)
+url = 'https://drive.google.com/uc?id=1xwdCgk1Ir7xLzCvDZxKjQcwLo5re9ny-?hl'
+df = 'data.csv'
+gdown.download(url, output, quiet=False)
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
