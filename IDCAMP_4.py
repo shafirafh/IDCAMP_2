@@ -13,7 +13,7 @@ st.title("Distribution of Customers in Brazil")
 
 # Load Dataset
 url = 'https://drive.google.com/uc?id=1xwdCgk1Ir7xLzCvDZxKjQcwLo5re9ny-?hl'
-df = 'data.csv'
+df = 'df.csv'
 gdown.download(url, output, quiet=False)
 
 # Pastikan kolom waktu dalam format datetime
