@@ -35,9 +35,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import folium
 
-"""## Data Wrangling
-
-### Gathering Data
 """
 
 df = pd.read_csv('df.csv')
