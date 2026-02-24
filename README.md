@@ -9,5 +9,5 @@ pip install numpy pandas scipy matplotlib seaborn jupyter streamlit babel
 
 ## Run steamlit app
 ```
-streamlit run IDCAMP_4.py
+streamlit run shafira_idcamp_2.py
 ```
