@@ -35,483 +35,124 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import folium
 
-"""## Data Wrangling
+#!pip install streamlit
+#!pip install folium
 
-### Gathering Data
-"""
+import streamlit as st
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import folium
 
-#geolocation_dataset                 = pd.read_csv("geolocation_dataset.csv", sep=",", on_bad_lines="skip")
-order_items_dataset                 = pd.read_csv('order_items_dataset.csv')
-#order_payments_dataset              = pd.read_csv('order_payments_dataset.csv')
-#order_reviews_dataset               = pd.read_csv('order_reviews_dataset.csv')
-orders_dataset                      = pd.read_csv('orders_dataset.csv')
-#product_category_name_translation   = pd.read_csv('product_category_name_translation.csv')
-products_dataset                    = pd.read_csv('products_dataset.csv')
-#sellers_dataset                     = pd.read_csv('sellers_dataset.csv')
-customers_dataset                   = pd.read_csv('customers_dataset.csv')
+st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 
-#geolocation_dataset.head()
+st.title("Distribution of Customers in Brazil")
 
-order_items_dataset.head()
+# Load ke DataFrame
+df = pd.read_csv("df.csv")
 
-#order_payments_dataset.head()
+# Pastikan kolom waktu dalam format datetime
+df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
 
-#order_reviews_dataset.head()
+# ============================
+# Sidebar untuk filter tanggal
+# ============================
+st.sidebar.header("Filter Waktu")
 
-orders_dataset.head()
+min_date = df['order_purchase_timestamp'].min().date()
+max_date = df['order_purchase_timestamp'].max().date()
 
-#product_category_name_translation.head()
+start_date = st.sidebar.date_input("Tanggal Mulai", min_date)
+end_date = st.sidebar.date_input("Tanggal Selesai", max_date)
 
-products_dataset.head()
+df_filtered = df[(df['order_purchase_timestamp'].dt.date >= start_date) & 
+                 (df['order_purchase_timestamp'].dt.date <= end_date)]
 
-#sellers_dataset.head()
-
-customers_dataset.head()
-
-"""### Assessing Data"""
-
-#geolocation_dataset.isnull().sum()
-
-# Sample customer data with latitude and longitude
-customers_dataset.isnull().sum()
-
-#sellers_dataset.isnull().sum()
-
-products_dataset.isnull().sum()
-
-#product_category_name_translation.isnull().sum()
-
-orders_dataset.isnull().sum()
-
-#order_reviews_dataset.isnull().sum()
-
-order_items_dataset.isnull().sum()
-
-#order_reviews_dataset.isnull().sum()
-
-#order_reviews_dataset.describe()
-
-#order_payments_dataset.isnull().sum()
-
-#order_items_dataset.isnull().sum()
-
-"""### Cleaning Data"""
-
-products_dataset.isna().sum()
-
-products_dataset.dropna(axis=0, inplace=True)
-products_dataset
-
-customers_dataset.head(3)
-
-#print(geolocation_dataset.columns)
-
-#geolocation_dataset = geolocation_dataset.drop_duplicates(subset=['geolocation_zip_code_prefix'])
-
-#geolocation_dataset['geolocation_lat'] = geolocation_dataset['geolocation_lat'].astype(float)
-#geolocation_dataset['geolocation_lng'] = geolocation_dataset['geolocation_lng'].astype(float)
-#geolocation_dataset = geolocation_dataset.dropna(subset=['geolocation_lat','geolocation_lng'])
-
-"""### Featuring Engineer"""
-
-# Gabungkan berdasarkan order_id
-df= pd.merge(orders_dataset, order_items_dataset, on='order_id', how='inner')
-df= pd.merge(df, customers_dataset, on='customer_id', how='inner')
-df= pd.merge(df, products_dataset, on='product_id', how='inner')
-
-#df = pd.merge(
-#    df,
-#    geolocation_dataset,
-#    left_on='customer_zip_code_prefix',
-#    right_on='geolocation_zip_code_prefix',
-#    how='left'
-#)
-
-df.head(5)
-
-df.to_csv('df.csv')
-
-"""## Exploratory Data Analysis (EDA)"""
-
-df.info()
-
-df.describe()
-
-df["customer_zip_code_prefix"].nunique()
-
-"""#### produk id paling sering muncul"""
-
-df['product_id'].value_counts().idxmax()
-
-df['product_id'].value_counts().max()
-
-"""#### produk id paling jarang muncul"""
-
-df['product_id'].value_counts().idxmin()
-
-df['product_id'].value_counts().min()
-
-"""### customer paling sering beli"""
-
-df['customer_id'].value_counts().idxmax()
-
-df['customer_id'].value_counts().max()
-
-"""### insight
-
-- terdapat 111.046 order id
-- rata - rata pembelian adalah 120.76
-- terdapat 14.927 zip kode (kode wilayah berbeda)
-- product id aca2eb7d00ea1a7b8ebd4e68314663af memiliki frekuensi tertinggi yaitu 527, sedangkan product id frekuensi terendah yaitu 006619bbed68b000c8ba3f8725d5409e sebanyak 1 kali
-- customer dengan frekuensi pembelian terbanyak berada pada 21 kali pembelian yaitu oleh customer fc3d1daec319d62d49bfb5e1f83123e9
-"""
-
-df.duplicated().sum()
-
-"""## Visualization & Explanatory Analysis
-
-### - pertanyaan 1 - produk apa saja yang paling laku selama tahun 2017?
-"""
-
-# Commented out IPython magic to ensure Python compatibility.
-# %matplotlib inline
-
-df['product_category_name'].nunique()
-
-# Group by category lalu jumlahkan price
-grouped = df.groupby('product_category_name')['price'].sum().reset_index()
-
-# Urutkan descending
+# ============================
+# Pertanyaan 1: Produk paling laku selama tahun 2017?
+# ============================
+grouped = df_filtered.groupby('product_category_name')['price'].sum().reset_index()
 grouped = grouped.sort_values(by='price', ascending=False)
-
-# Ambil 8 kategori teratas
 top8 = grouped.head(8)
-
-# Gabungkan sisanya jadi "Other"
-other = pd.DataFrame({
-    'product_category_name': ['Other'],
-    'price': [grouped['price'].iloc[8:].sum()]
-})
-
-# Gabungkan top8 + other
+other = pd.DataFrame({'product_category_name': ['Other'], 'price': [grouped['price'].iloc[8:].sum()]})
 pie_data = pd.concat([top8, other])
 
-# Buat pie chart
-plt.figure(figsize=(8,8))
-plt.pie(
-    pie_data['price'],
-    labels=pie_data['product_category_name'],
-    autopct='%1.1f%%',
-    startangle=140
-)
-plt.title('Total Amount per Category (Top 8 + Other)')
-plt.show()
+fig1, ax1 = plt.subplots(figsize=(8,8))
+ax1.pie(pie_data['price'], labels=pie_data['product_category_name'], autopct='%1.1f%%', startangle=140)
+ax1.set_title('Total Amount per Category (Top 8 + Other)')
+st.pyplot(fig1)
 
-# Pastikan kolom waktu dalam format datetime
-df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
+# Tambahkan kesimpulan di Streamlit
+st.subheader("Insight 1")
+st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho."
+         "Terlihat bahwa 8.2% penjualan selama 2017 berasal dari cama mesa banho.")
 
-# Filter hanya tahun 2018
-df_2017 = df[df['order_purchase_timestamp'].dt.year == 2017]
-
-# Group by category lalu jumlahkan price
-grouped = df_2017.groupby('product_category_name')['price'].sum().reset_index()
-
-# Urutkan descending
-grouped = grouped.sort_values(by='price', ascending=False)
-
-# Ambil 8 kategori teratas
-top8 = grouped.head(8)
-
-# Gabungkan sisanya jadi "Other"
-other = pd.DataFrame({
-    'product_category_name': ['Other'],
-    'price': [grouped['price'].iloc[8:].sum()]
-})
-
-# Gabungkan top8 + other
-pie_data = pd.concat([top8, other])
-
-# Buat pie chart
-plt.figure(figsize=(8,8))
-plt.pie(
-    pie_data['price'],
-    labels=pie_data['product_category_name'],
-    autopct='%1.1f%%',
-    startangle=140
-)
-plt.title('Total Amount per Category (Top 8 + Other) - Tahun 2017')
-plt.show()
-
-"""### insight
-- pada tahun 2017, category paling diminati adalah cam_mesa_bahno ditunjukkan dengan 8.2% pendapatan selama 2017 berasal dari category cama_mesa_banho
-
-### - pertanyaan 2 - Pada tanggal berapa order tertinggi selama tahun 2017?
-"""
-
-# Misalnya df punya kolom order_purchase_timestamp
-# Pastikan kolom waktu dalam format datetime
-df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
-
-# Group by per bulan (bisa juga per hari atau per minggu)
-orders_per_month = df.groupby(df['order_purchase_timestamp'].dt.to_period('M'))['order_id'].count()
-
-# Ubah ke DataFrame agar lebih mudah di-plot
-orders_per_month = orders_per_month.reset_index()
+# ============================
+# Pertanyaan 2: Pada bulan berapa order tertinggi selama tahun 2017?
+# ============================
+orders_per_month = df_filtered.groupby(df_filtered['order_purchase_timestamp'].dt.to_period('M')).size().reset_index(name='order_count')
 orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
 
-# Buat grafik
-plt.figure(figsize=(10,5))
-plt.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_id'], marker='o')
-plt.xlabel('Waktu (Bulan)')
-plt.ylabel('Jumlah Order')
-plt.title('Jumlah Order per Bulan')
+fig2, ax2 = plt.subplots(figsize=(10,5))
+ax2.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_count'], marker='o')
+ax2.set_xlabel('Waktu (Bulan)')
+ax2.set_ylabel('Jumlah Order')
+ax2.set_title('Jumlah Order per Bulan')
 plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
+st.pyplot(fig2)
 
-# Pastikan kolom waktu dalam format datetime
-df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
+# Tambahkan kesimpulan di Streamlit
+st.subheader("Insight 2")
+st.write("Pada tahun 2017, order terbanyak berada di bulan 11 (November)."
+         "Terlihat dari puncak grafik tertinggi pada bulan November yang terdiri lebih dari 8000 order.")
 
-# Filter hanya tahun 2018
-df_2017 = df[df['order_purchase_timestamp'].dt.year == 2017]
-
-# Group by per bulan
-orders_per_month = df_2017.groupby(df_2017['order_purchase_timestamp'].dt.to_period('M'))['order_id'].count()
-
-# Ubah ke DataFrame agar lebih mudah di-plot
-orders_per_month = orders_per_month.reset_index()
-orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
-
-# Buat grafik
-plt.figure(figsize=(10,5))
-plt.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_id'], marker='o')
-plt.xlabel('Waktu (Bulan)')
-plt.ylabel('Jumlah Order')
-plt.title('Jumlah Order per Bulan (2017)')
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
-
-# Pastikan kolom waktu dalam format datetime
-df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
-
-# Tambahkan kolom tahun dan bulan
-df['year'] = df['order_purchase_timestamp'].dt.year
-df['month'] = df['order_purchase_timestamp'].dt.month
-
-# Group by tahun dan bulan
-orders_per_month = df.groupby(['year','month'])['order_id'].count().reset_index()
-
-# Pivot agar tiap tahun jadi kolom
-pivot_orders = orders_per_month.pivot(index='month', columns='year', values='order_id')
-
-# Buat grafik
-plt.figure(figsize=(10,5))
-plt.plot(pivot_orders.index, pivot_orders[2017], marker='o', label='2017')
-plt.plot(pivot_orders.index, pivot_orders[2018], marker='o', label='2018')
-plt.xlabel('Bulan')
-plt.ylabel('Jumlah Order')
-plt.title('Jumlah Order per Bulan (2017 vs 2018)')
-plt.xticks(range(1,13))
-plt.legend()
-plt.tight_layout()
-plt.show()
-
-"""### insight
-- selama tahun 2017, penjualan tertinggi terjadi pada bulan ke-11 yaitu November
-
-### - pertanyaan 3 - Berapa jumlah customer loyal selama tahun 2018?
-"""
-
-df['customer_id'].nunique()
-
-"""#### Recency -> seberapa banyak waktu berkunjung belakangan/baru-baru inin pelanggan untuk membeli (pembelian yang baru menunjukkan low-recency)."""
-
-#Group by berdasarkan customer terakhir membeli
-recency_df = df.groupby(['customer_id'], as_index=False)['order_purchase_timestamp'].max()
+# ============================
+# Pertanyaan 3: Berapa jumlah customer loyal selama tahun 2017 dan 2018? 
+# ============================
+recency_df = df_filtered.groupby(['customer_id'], as_index=False)['order_purchase_timestamp'].max()
 recency_df.columns = ['customer_id','LastPurchaseDate']
-recency_df.tail()
-
-# Ambil waktu sekarang sebagai Timestamp
 now = pd.Timestamp.now()
-# Gabungkan kembali ke df utama atau buat dataframe baru
 recency_df['Recency'] = (now - recency_df['LastPurchaseDate']).dt.days
 
-recency_df['Recency'] = recency_df['Recency'].astype('Int64')
-recency_df.tail()
+resi_count = df_filtered.groupby('customer_id').size().reset_index(name='Frequency')
 
-recency_df['Recency'].describe()
-
-"""#### Frecuency -> seberapa banyak/jumlah mereka melakukan pembelian (pembelian yang tinggi berarti high-frecuency)"""
-
-# Gabungkan dengan recency_df
-frequency_df = df.copy()
-frequency_df.drop_duplicates(
-    subset=['order_purchase_timestamp','order_id'],
-    keep='first',
-    inplace=True
-)
-
-# Hitung jumlah nomor resi per pelanggan
-resi_count = df.groupby('customer_id', as_index=False)['order_id'].count()
-resi_count.columns = ['customer_id', 'Frequency']
-
-frequency_df = frequency_df.merge(resi_count, on='customer_id', how='left')
-frequency_df = frequency_df.sort_values(by='Frequency', ascending=False)
-
-frequency_df.head()
-
-link_target = "fc3d1daec319d62d49bfb5e1f83123e9"
-freq_value = frequency_df.loc[frequency_df['customer_id'] == link_target, 'Frequency']
-freq_value
-
-"""#### Monetary = seberapa banyak uang yang mereka spend untuk membeli (spend yang tinggi berarti high monetary)"""
-
-# Gabungkan dengan recency_df
-
-monetary_df = df.copy()
-monetary_df.drop_duplicates(
-    subset=['order_purchase_timestamp','order_id'],
-    keep='first',
-    inplace=True
-)
-
-# Hitung total price per customer
-price_sum = df.groupby('customer_id', as_index=False)['price'].sum()
+price_sum = df_filtered.groupby('customer_id', as_index=False)['price'].sum()
 price_sum.columns = ['customer_id', 'Monetary']
 
-# Gabungkan dengan df utama
-monetary_df = df.merge(price_sum, on='customer_id', how='left')
-
-# Urutkan berdasarkan kolom 'Monetary'
-monetary_df = monetary_df.sort_values(by='Monetary', ascending=False)
-
-# Tampilkan hasil
-monetary_df.head()
-
-#Merging above tables
-rf = recency_df.merge(frequency_df , left_on = 'customer_id', right_on = 'customer_id')
-rfm = rf.merge(monetary_df , left_on = 'customer_id', right_on = 'customer_id' )
-rfm.set_index('customer_id' , inplace = True)
-
-rfm[['Recency','Frequency','Monetary']].describe()
-
-rfm.tail()
-
-# Hapus baris dengan MOnetary = 0
+rfm = recency_df.merge(resi_count, on='customer_id').merge(price_sum, on='customer_id')
 rfm = rfm[rfm['Monetary'] != 0]
-
-# Tampilkan hasil
-rfm.tail()
-
-"""Recency
-<br>-Sangat baru (≤2800)<br>- Baru (2801–3000)<br>- Lama (3001–3200)<br>- Sangat lama (>3200)
-
-Frequency
-<br>- Sangat jarang (≤5)<br>- Jarang (6–10)<br>- Sering (11–15)<br>- Sangat sering (>15)
-
-Monetary
-<br>-  Rendah (≤500)<br>- Sedang (501–2000)<br>- Tinggi (2001–5000)<br>- Sangat tinggi (>5000)
-"""
-
-# Recency
 rfm['R'] = pd.qcut(rfm['Recency'], 4, labels=[4,3,2,1])
-
-rfm['F'] = pd.cut(
-    rfm['Frequency'],
-    bins=[0, 5, 10, 15, rfm['Frequency'].max()],
-    labels=[1,2,3,4]
-)
-
+rfm['F'] = pd.cut(rfm['Frequency'], bins=[0,5,10,15,rfm['Frequency'].max()], labels=[1,2,3,4])
 rfm['M'] = pd.qcut(rfm['Monetary'], 4, labels=[1,2,3,4])
-
-# Hapus baris jika kolom 'R' kosong
-rfm = rfm.dropna(subset=['R'])
-
 rfm['Score'] = rfm[['R','F','M']].sum(axis=1)
 
-rfm.shape
-
-rfm.head()
-
 def categorize(score):
-    if score >= 10:
-        return 'Champions'
-    elif score >= 7:
-        return 'Loyal Customers'
-    elif score >= 4:
-        return 'Potential Loyalists / At Risk'
-    else:
-        return 'Hibernating / Lost'
+    if score >= 10: return 'Champions'
+    elif score >= 7: return 'Loyal Customers'
+    elif score >= 4: return 'Potential Loyalists / At Risk'
+    else: return 'Hibernating / Lost'
 
 rfm['Segment'] = rfm['Score'].apply(categorize)
-
-# Hitung jumlah pelanggan per segmen
 segment_counts = rfm['Segment'].value_counts()
 
-# Buat barchart
-plt.figure(figsize=(8,6))
-segment_counts.plot(kind='bar', color='skyblue', edgecolor='black')
+fig3, ax3 = plt.subplots(figsize=(8,6))
+segment_counts.plot(kind='bar', color='skyblue', edgecolor='black', ax=ax3)
+ax3.set_xlabel('Segment')
+ax3.set_ylabel('Jumlah Pelanggan')
+ax3.set_title('Distribusi Pelanggan per Segment RFM')
+st.pyplot(fig3)
 
-plt.xlabel('Segment')
-plt.ylabel('Jumlah Pelanggan')
-plt.title('Distribusi Pelanggan per Segment RFM')
-plt.xticks(rotation=45)
-plt.show()
+# Tambahkan kesimpulan di Streamlit
+st.subheader("Insight 3")
+st.write("Pada tahun 2017 customer terdiri dari kategori potential loyal/ at risk, hibernating/ lost, dan loyal customers."
+         "Pada tahun 2018 customer terdiri dari kategori customer loyal customers, potential loyalist/at risk, dan champions."
+         "Dari grafik, menunjukkan bahwa dari tahun 2017 ke tahun 2018 terdapat kenaikan/perbaikan kualitas, sehingga pada tahun 2018 tidak terdapat customer hibernating/lost.")
 
-# Pastikan kolom waktu dalam format datetime
-rfm['order_purchase_timestamp'] = pd.to_datetime(rfm['order_purchase_timestamp_x'])
+# Conclusion
+st.markdown("**Conclusion:** "
+            "- berdasarkan hasil rfm, customer bisa melakukan pembelian hingga nilai 6735, sedangkan rata-rata pembelian 120. hal tersebut menunjukkan bahwa penjualan masih bisa dioptimalkan dengan mengatur strategi yang tepat."
+            "- berdasarkan hasil rfm, juga diperoleh informasi bahwa customer hibernating/lost sudah tidak ada pada tahun 2018. namun perlu diperhatikan bahwa, at risk masih tinggi sehingga diperlukan program yang mendukung untuk kedepannya."
+            "- berdasarkan line chart jumlah order, diketahui bahwa orderan tahun 2017 ke 2018 cenderung naik. namun perlu menjadi perhatian bahwa akhir 2018 terjadi penurunan drastis, sehingga perlu diteliti lebih lanjut."
+            )
 
-# Filter hanya tahun 2017
-rfm_2017 = rfm[rfm['order_purchase_timestamp'].dt.year == 2017]
-
-# Hitung jumlah pelanggan per segmen
-segment_counts = rfm_2017['Segment'].value_counts()
-
-# Buat barchart
-plt.figure(figsize=(8,6))
-segment_counts.plot(kind='bar', color='skyblue', edgecolor='black')
-
-plt.xlabel('Segment')
-plt.ylabel('Jumlah Pelanggan')
-plt.title('Distribusi Pelanggan per Segment RFM (2017)')
-plt.xticks(rotation=45)
-plt.show()
-
-# Pastikan kolom waktu dalam format datetime
-rfm['order_purchase_timestamp'] = pd.to_datetime(rfm['order_purchase_timestamp_x'])
-
-# Filter hanya tahun 2017
-rfm_2018 = rfm[rfm['order_purchase_timestamp'].dt.year == 2018]
-
-# Hitung jumlah pelanggan per segmen
-segment_counts = rfm_2018['Segment'].value_counts()
-
-# Buat barchart
-plt.figure(figsize=(8,6))
-segment_counts.plot(kind='bar', color='skyblue', edgecolor='black')
-
-plt.xlabel('Segment')
-plt.ylabel('Jumlah Pelanggan')
-plt.title('Distribusi Pelanggan per Segment RFM (2018)')
-plt.xticks(rotation=45)
-plt.show()
-
-"""### insight
-- pada tahun 2017 customer terdiri dari kategori potential loyal/ at risk, hibernating/ lost, dan loyal customers
-- pada tahun 2018 customer terdiri dari kategori customer loyal customers, potential loyalist/at risk, dan champions
-- dari grafik, menunjukkan bahwa dari tahun 2017 ke tahun 2018 terdapat kenaikan/perbaikan kualitas, sehingga pada tahun 2018 tidak terdapat customer hibernating/lost.
-"""
-
-#!pip install jupyter
-
-rfm.describe()
-
-"""### Conclusion
-
-- berdasarkan hasil rfm, customer bisa melakukan pembelian hingga nilai 6735, sedangkan rata-rata pembelian 120. hal tersebut menunjukkan bahwa penjualan masih bisa dioptimalkan dengan mengatur strategi yang tepat.
-
-- berdasarkan hasil rfm, juga diperoleh informasi bahwa customer hibernating/lost sudah tidak ada pada tahun 2018. namun perlu diperhatikan bahwa, at risk masih tinggi sehingga diperlukan program yang mendukung untuk kedepannya.
-
-- berdasarkan line chart jumlah order, diketahui bahwa orderan tahun 2017 ke 2018 cenderung naik. namun perlu menjadi perhatian bahwa akhir 2018 terjadi penurunan drastis, sehingga perlu diteliti lebih lanjut.
-"""
