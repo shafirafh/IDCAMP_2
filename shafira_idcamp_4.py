@@ -91,22 +91,35 @@ st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho."
 # ============================
 # Pertanyaan 2: Pada bulan berapa order tertinggi selama tahun 2017?
 # ============================
-orders_per_month = df_filtered.groupby(df_filtered['order_purchase_timestamp'].dt.to_period('M')).size().reset_index(name='order_count')
-orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
 
-fig2, ax2 = plt.subplots(figsize=(10,5))
-ax2.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_count'], marker='o')
-ax2.set_xlabel('Waktu (Bulan)')
-ax2.set_ylabel('Jumlah Order')
-ax2.set_title('Jumlah Order per Bulan')
-plt.xticks(rotation=45)
-st.pyplot(fig2)
+if not df_filtered.empty and 'order_purchase_timestamp' in df_filtered.columns:
+    orders_per_month = (
+        df_filtered
+        .groupby(df_filtered['order_purchase_timestamp'].dt.to_period('M'))
+        .size()
+        .reset_index(name='order_count')
+    )
+    orders_per_month['order_purchase_timestamp'] = orders_per_month['order_purchase_timestamp'].dt.to_timestamp()
 
-# Tambahkan kesimpulan di Streamlit
-st.subheader("Insight 2")
-st.write("Pada tahun 2017, order terbanyak berada di bulan 11 (November)."
-         "Terlihat dari puncak grafik tertinggi pada bulan November yang terdiri lebih dari 8000 order.")
+    if not orders_per_month.empty:
+        fig2, ax2 = plt.subplots(figsize=(10,5))
+        ax2.plot(orders_per_month['order_purchase_timestamp'], orders_per_month['order_count'], marker='o')
+        ax2.set_xlabel('Waktu (Bulan)')
+        ax2.set_ylabel('Jumlah Order')
+        ax2.set_title('Jumlah Order per Bulan')
+        plt.xticks(rotation=45)
+        st.pyplot(fig2)
 
+        # Tambahkan kesimpulan di Streamlit
+        st.subheader("Insight 2")
+        st.write("Pada tahun 2017, order terbanyak berada di bulan 11 (November). "
+                 "Terlihat dari puncak grafik tertinggi pada bulan November yang terdiri lebih dari 8000 order.")
+    else:
+        st.subheader("Insight 2")
+        st.warning("Data tidak tersedia untuk range waktu yang dipilih.")
+else:
+    st.subheader("Insight 2")
+    st.warning("Data tidak tersedia atau kolom 'order_purchase_timestamp' tidak ditemukan.")
 # ============================
 # Pertanyaan 3: Berapa jumlah customer loyal selama tahun 2017 dan 2018? 
 # ============================
