@@ -39,22 +39,24 @@ import folium
 st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 st.title("Distribution of Customers in Brazil")
 
-# Coba load file, fallback ke uploader
-try:
-    df = pd.read_csv("data/df.csv")
+# Upload file
+uploaded_file = st.file_uploader("Upload CSV file", type="csv")
+
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
     st.write("Kolom dalam dataset:", df.columns)
 
+    # Pastikan kolom ada sebelum dipakai
     if 'order_purchase_timestamp' in df.columns:
         df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
+        min_date = df['order_purchase_timestamp'].min().date()
+        max_date = df['order_purchase_timestamp'].max().date()
+        st.write(f"Rentang tanggal: {min_date} sampai {max_date}")
     else:
-        st.warning("Kolom 'order_purchase_timestamp' tidak ada di dataset.")
-except FileNotFoundError:
-    st.error("File df.csv tidak ditemukan. Upload file untuk melanjutkan.")
-    uploaded_file = st.file_uploader("Upload CSV file")
-    if uploaded_file is not None:
-        df = pd.read_csv(uploaded_file)
-        st.write("Kolom dalam dataset:", df.columns)
-
+        st.warning("Kolom 'order_purchase_timestamp' tidak ditemukan di dataset.")
+else:
+    st.info("Silakan upload file CSV untuk melanjutkan.")
+    
 # ============================
 # Sidebar untuk filter tanggal
 # ============================
