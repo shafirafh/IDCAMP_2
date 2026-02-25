@@ -35,12 +35,19 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import folium
 
-st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 
+st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 st.title("Distribution of Customers in Brazil")
 
-# Load ke DataFrame
-df = pd.read_csv("data/df.csv")
+# Coba load file, fallback ke uploader
+try:
+    df = pd.read_csv("data/df.csv")
+except FileNotFoundError:
+    st.warning("File df.csv tidak ditemukan. Silakan upload manual.")
+    uploaded_file = st.file_uploader("Upload CSV file")
+    if uploaded_file is not None:
+        df = pd.read_csv(uploaded_file)
+        st.write(df.head())
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
