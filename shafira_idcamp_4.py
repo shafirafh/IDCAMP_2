@@ -151,8 +151,7 @@ st.write("Pada tahun 2017 customer terdiri dari kategori potential loyal/ at ris
 
 # Conclusion
 st.markdown("**Conclusion:** "
-            "- berdasarkan hasil rfm, customer bisa melakukan pembelian hingga nilai 6735, sedangkan rata-rata pembelian 120. hal tersebut menunjukkan bahwa penjualan masih bisa dioptimalkan dengan mengatur strategi yang tepat."
-            "- berdasarkan hasil rfm, juga diperoleh informasi bahwa customer hibernating/lost sudah tidak ada pada tahun 2018. namun perlu diperhatikan bahwa, at risk masih tinggi sehingga diperlukan program yang mendukung untuk kedepannya."
-            "- berdasarkan line chart jumlah order, diketahui bahwa orderan tahun 2017 ke 2018 cenderung naik. namun perlu menjadi perhatian bahwa akhir 2018 terjadi penurunan drastis, sehingga perlu diteliti lebih lanjut."
-            )
+            "Pertanyaan 1 -  Tren belanja 2017 didominasi oleh kebutuhan rumah tangga, gaya hidup, dan teknologi, menandakan fokus konsumen pada kenyamanan, penampilan, serta aktivitas rekreasi."
+            "Pertanyaan 2 - November menjadi puncak aktivitas belanja, kemungkinan dipengaruhi oleh momen promosi besar (misalnya Black Friday atau akhir tahun). Hal ini menunjukkan pentingnya strategi kampanye di bulan tersebut untuk memaksimalkan penjualan."
+            "Pertanyaan 3 - Terjadi peningkatan signifikan dalam loyalitas pelanggan dan kualitas hubungan dengan customer. Strategi retensi yang diterapkan berhasil mengurangi kehilangan pelanggan dan mendorong lebih banyak customer menjadi loyal maupun champions.")
 
