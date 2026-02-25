@@ -36,8 +36,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import folium
 
-
-df.to_csv('df.csv')
+# Load ke DataFrame
+df = pd.read_csv("df.csv")
 
 """**Insight:**
 - untuk mempermudah tahap selanjutnya, dilakukan merge data orders_dataset, order_items_dataset, customers_dataset, dan product_dataset
