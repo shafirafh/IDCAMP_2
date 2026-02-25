@@ -35,28 +35,16 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import folium
 
-
 st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
+
 st.title("Distribution of Customers in Brazil")
 
-# Upload file
-uploaded_file = st.file_uploader("Upload CSV file", type="csv")
+# Load ke DataFrame
+df = pd.read_csv("df.csv")
 
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
-    st.write("Kolom dalam dataset:", df.columns)
+# Pastikan kolom waktu dalam format datetime
+df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
 
-    # Pastikan kolom ada sebelum dipakai
-    if 'order_purchase_timestamp' in df.columns:
-        df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
-        min_date = df['order_purchase_timestamp'].min().date()
-        max_date = df['order_purchase_timestamp'].max().date()
-        st.write(f"Rentang tanggal: {min_date} sampai {max_date}")
-    else:
-        st.warning("Kolom 'order_purchase_timestamp' tidak ditemukan di dataset.")
-else:
-    st.info("Silakan upload file CSV untuk melanjutkan.")
-    
 # ============================
 # Sidebar untuk filter tanggal
 # ============================
