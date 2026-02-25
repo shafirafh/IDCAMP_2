@@ -43,7 +43,7 @@ st.title("Distribution of Customers in Brazil")
 try:
     df = pd.read_csv("data/df.csv")
 except FileNotFoundError:
-    st.warning("File df.csv tidak ditemukan. Silakan upload manual.")
+    st.warning("Silakan upload file csv manual")
     uploaded_file = st.file_uploader("Upload CSV file")
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
