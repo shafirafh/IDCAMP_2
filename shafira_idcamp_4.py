@@ -15,12 +15,13 @@ Original file is located at
 
 - pertanyaan 1
 produk apa saja yang paling laku selama tahun 2017?
+Identifikasi lima kategori produk dengan jumlah penjualan tertinggi sepanjang periode Januari–Desember 2017, berdasarkan data transaksi yang tercatat.
 
 - pertanyaan 2
-Pada bulan berapa order tertinggi selama tahun 2017?
+Pada bulan berapa order tertinggi selama tahun 2017? Tentukan bulan dengan jumlah order terbanyak selama Januari–Desember 2017, menggunakan data pesanan yang tersedia.
 
 - pertanyaan 3
-Berapa jumlah customer loyal selama tahun 2017 dan 2018?
+Berapa jumlah customer loyal selama tahun 2017 dan 2018? Hitung jumlah customer yang memiliki score RFM >=7 periode Januari–Desember 2017 dan Januari–Desember 2018."
 
 ## Menyiapkan semua library yang dibutuhkan
 """
@@ -85,8 +86,9 @@ st.pyplot(fig1)
 
 # Tambahkan kesimpulan di Streamlit
 st.subheader("Insight 1")
-st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho."
-         "Terlihat bahwa 8.2% penjualan selama 2017 berasal dari cama mesa banho.")
+st.write("Lima kategori produk dengan penjualan tertinggi sepanjang 2017 menunjukkan bahwa konsumen paling banyak membeli produk rumah tangga (cama_mesa_banho),"
+         "hadiah/jam tangan (relogios_presentes), kecantikan & kesehatan (beleza_saude), olahraga & rekreasi (esporte_lazer),"
+         "serta aksesori komputer (informatica_acessorios).")
 
 # ============================
 # Pertanyaan 2: Pada bulan berapa order tertinggi selama tahun 2017?
@@ -112,8 +114,7 @@ if not df_filtered.empty and 'order_purchase_timestamp' in df_filtered.columns:
 
         # Tambahkan kesimpulan di Streamlit
         st.subheader("Insight 2")
-        st.write("Pada tahun 2017, order terbanyak berada di bulan 11 (November). "
-                 "Terlihat dari puncak grafik tertinggi pada bulan November yang terdiri lebih dari 8000 order.")
+        st.write("selama tahun 2017, order tertinggi terjadi pada bulan ke-11 yaitu November sebanyak 8543 order id")
     else:
         st.subheader("Insight 2")
         st.warning("Data tidak tersedia untuk range waktu yang dipilih.")
@@ -158,13 +159,12 @@ st.pyplot(fig3)
 
 # Tambahkan kesimpulan di Streamlit
 st.subheader("Insight 3")
-st.write("Pada tahun 2017 customer terdiri dari kategori potential loyal/ at risk, hibernating/ lost, dan loyal customers."
-         "Pada tahun 2018 customer terdiri dari kategori customer loyal customers, potential loyalist/at risk, dan champions."
-         "Dari grafik, menunjukkan bahwa dari tahun 2017 ke tahun 2018 terdapat kenaikan/perbaikan kualitas, sehingga pada tahun 2018 tidak terdapat customer hibernating/lost.")
+st.write("pada tahun 2017 terdapat 5932 customer loyal dan pada tahun 2018 sebanyak 35924, artinya terdapat peningkatan customer loyal."
+         "dari grafik, menunjukkan bahwa dari tahun 2017 ke tahun 2018 terdapat kenaikan/perbaikan kualitas, sehingga pada tahun 2018 tidak terdapat customer hibernating/lost.")
 
 # Conclusion
-st.markdown("**Conclusion:** "
-            "Pertanyaan 1 -  Tren belanja 2017 didominasi oleh kebutuhan rumah tangga, gaya hidup, dan teknologi, menandakan fokus konsumen pada kenyamanan, penampilan, serta aktivitas rekreasi."
+st.subheader("Conclusion")
+st.markdown("Pertanyaan 1 -  Tren belanja 2017 didominasi oleh kebutuhan rumah tangga, gaya hidup, dan teknologi, menandakan fokus konsumen pada kenyamanan, penampilan, serta aktivitas rekreasi."
             "Pertanyaan 2 - November menjadi puncak aktivitas belanja, kemungkinan dipengaruhi oleh momen promosi besar (misalnya Black Friday atau akhir tahun). Hal ini menunjukkan pentingnya strategi kampanye di bulan tersebut untuk memaksimalkan penjualan."
             "Pertanyaan 3 - Terjadi peningkatan signifikan dalam loyalitas pelanggan dan kualitas hubungan dengan customer. Strategi retensi yang diterapkan berhasil mengurangi kehilangan pelanggan dan mendorong lebih banyak customer menjadi loyal maupun champions.")
 
