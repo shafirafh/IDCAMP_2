@@ -40,7 +40,7 @@ st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 st.title("Distribution of Customers in Brazil")
 
 # Load ke DataFrame
-df = pd.read_csv("df.csv")
+df = pd.read_csv("data/df.csv")
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
