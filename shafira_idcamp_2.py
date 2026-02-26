@@ -40,13 +40,19 @@ st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 
 st.title("Distribution of Customers in Brazil")
 
-# Load ke DataFrame
-import os
+st.title("Upload Dataset")
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(BASE_DIR, "df.csv")
+uploaded_file = st.file_uploader("Upload file df.csv", type=["csv"])
 
-df = pd.read_csv(file_path)
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+    
+    # lanjutkan proses
+    df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
+    
+else:
+    st.warning("Silakan upload file CSV terlebih dahulu.")
+    st.stop()
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
