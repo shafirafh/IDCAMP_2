@@ -76,7 +76,7 @@ df_filtered = df[(df['order_purchase_timestamp'].dt.date >= start_date) &
 # ============================
 # ---- GROUPING ----
 grouped = (
-    filtered_df
+    df_filtered
     .groupby('product_category_name')['price']
     .sum()
     .reset_index()
