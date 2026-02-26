@@ -56,55 +56,26 @@ max_date = df['order_purchase_timestamp'].max().date()
 start_date = st.sidebar.date_input("Tanggal Mulai", min_date)
 end_date = st.sidebar.date_input("Tanggal Selesai", max_date)
 
+df_filtered = df[(df['order_purchase_timestamp'].dt.date >= start_date) & (df['order_purchase_timestamp'].dt.date <= end_date)]
 # ============================
 # Pertanyaan 1: Produk paling laku selama tahun 2017?
 # ============================
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
+grouped = df_filtered.groupby('product_category_name')['price'].sum().reset_index()
+grouped = grouped.sort_values(by='price', ascending=False)
+top8 = grouped.head(8)
+other = pd.DataFrame({'product_category_name': ['Other'], 'price': [grouped['price'].iloc[8:].sum()]})
+pie_data = pd.concat([top8, other])
 
-# Pastikan kolom waktu dalam format datetime
-df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
+fig1, ax1 = plt.subplots(figsize=(8,8))
+ax1.pie(pie_data['price'], labels=pie_data['product_category_name'], autopct='%1.1f%%', startangle=140)
+ax1.set_title('Total Amount per Category (Top 8 + Other)')
+st.pyplot(fig1)
 
-# ============================
-# Sidebar Filter Tanggal
-# ============================
+# Tambahkan kesimpulan di Streamlit
+st.subheader("Insight 1")
+st.write("Produk paling laku selama tahun 2017 adalah kategory cama mesa banho."
+         "Terlihat bahwa 8.2% penjualan selama 2017 berasal dari cama mesa banho.")
 
-# Validasi kalau user pilih tanggal terbalik
-if start_date > end_date:
-    st.error("Tanggal mulai tidak boleh lebih besar dari tanggal selesai.")
-else:
-    
-    df_filtered = df[
-        (df['order_purchase_timestamp'].dt.date >= start_date) &
-        (df['order_purchase_timestamp'].dt.date <= end_date)
-    ]
-
-    # ============================
-    # Top 5 Kategori
-    # ============================
-    grouped = (
-        df_filtered
-        .groupby('product_category_name')['price']
-        .sum()
-        .reset_index()
-    )
-
-    grouped = grouped.sort_values(by='price', ascending=False)
-    top5 = grouped.head(5)
-
-    # ============================
-    # Plot
-    # ============================
-    fig, ax = plt.subplots(figsize=(10,6))
-    ax.bar(top5['product_category_name'], top5['price'])
-
-    ax.set_ylabel("Total Amount")
-    ax.set_title("Total Amount per Category (Top 5)")
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-
-    st.pyplot(fig)
 # ============================
 # Pertanyaan 2: Pada bulan berapa order tertinggi selama tahun 2017?
 # ============================
