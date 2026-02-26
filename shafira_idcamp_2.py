@@ -36,22 +36,17 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import folium
 
-#!pip install streamlit
-#!pip install folium
-
-import streamlit as st
-import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-import folium
-
 st.header('🛍️ Dashboard Brasilia E-Commerce Dataset')
 
 st.title("Distribution of Customers in Brazil")
 
 # Load ke DataFrame
-df = pd.read_csv("df.csv")
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(BASE_DIR, "df.csv")
+
+df = pd.read_csv(file_path)
 
 # Pastikan kolom waktu dalam format datetime
 df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
