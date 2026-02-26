@@ -62,16 +62,6 @@ df_filtered = df[(df['order_purchase_timestamp'].dt.date >= start_date) &
 # ============================
 # Pertanyaan 1: Produk paling laku selama tahun 2017?
 # ============================
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-
-st.title("Top 5 Product Categories by Total Amount")
-
-# Pastikan kolom tanggal dalam format datetime
-df['order_purchase_timestamp'] = pd.to_datetime(df['order_purchase_timestamp'])
-
-# ---- GROUPING ----
 grouped = (
     filtered_df
     .groupby('product_category_name')['price']
